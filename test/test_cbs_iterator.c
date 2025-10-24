@@ -82,12 +82,12 @@ void test_n3() {
 }
 
 void test_n20() {
-    printf("Для n=20\n");
+    printf("Для n=15\n");
     iterator_t it;
-    iterator_init(&it, 20);
+    iterator_init(&it, 15);
     
     int count = 0;
-    printf("Все ПСП для n=20:\n");
+    printf("Все ПСП для n=15:\n");
     while (iterator_has_next(&it)) {
         const cbs_t *val = iterator_value(&it);
         if (count <= 100) printf("  %s\n", val->psp);
@@ -108,7 +108,7 @@ int main() {
     test_n1();
     test_n2();
     test_n3();
-    test_n20();
+    test_n15();
     
     printf("Введите n: ");
     
