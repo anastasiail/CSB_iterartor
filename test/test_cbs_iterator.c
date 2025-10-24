@@ -90,10 +90,11 @@ void test_n20() {
     printf("Все ПСП для n=20:\n");
     while (iterator_has_next(&it)) {
         const cbs_t *val = iterator_value(&it);
-        printf("  %s\n", val->psp);
+        if (count <= 100) printf("  %s\n", val->psp);
         count++;
         iterator_next(&it);
     }
+    printf("... и т. д.\n");
     
     printf("Всего последовательностей: %d\n", count);
     
