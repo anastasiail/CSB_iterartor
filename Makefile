@@ -15,12 +15,14 @@ INCLUDE_DIR = include
 BUILD_DIR = build
 
 # Исходные файлы
-SRC_FILES = $(SRC_DIR)/cbs_iterator.c $(SRC_DIR)/main.c
-TEST_FILES = $(SRC_DIR)/cbs_iterator.c $(TEST_DIR)/test_cbs_iterator.c
+MAIN_SRC = $(SRC_DIR)/main.c
+CBS_SRC = $(SRC_DIR)/cbs_iterator.c
+TEST_SRC = $(TEST_DIR)/test_cbs_iterator.c
 
 # Объектные файлы
-OBJ_FILES = $(BUILD_DIR)/cbs_iterator.o $(BUILD_DIR)/main.o
-TEST_OBJ_FILES = $(BUILD_DIR)/cbs_iterator.o $(BUILD_DIR)/test_cbs_iterator.o
+MAIN_OBJ = $(BUILD_DIR)/main.o
+CBS_OBJ = $(BUILD_DIR)/cbs_iterator.o
+TEST_OBJ = $(BUILD_DIR)/test_cbs_iterator.o
 
 # Основная цель
 all: $(BUILD_DIR) $(TARGET)
@@ -34,19 +36,23 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 # Основная программа
-$(TARGET): $(OBJ_FILES)
+$(TARGET): $(CBS_OBJ) $(MAIN_OBJ)
 	$(CC) $(CFLAGS) $(RELEASE_FLAGS) -o $@ $^
 
 # Программа тестирования
-$(TEST_TARGET): $(TEST_OBJ_FILES)
+$(TEST_TARGET): $(CBS_OBJ) $(TEST_OBJ)
 	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -o $@ $^
 
-# Компиляция объектных файлов
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) $(RELEASE_FLAGS) -c -o $@ $<
+# Компиляция объектных файлов для основной программы
+$(BUILD_DIR)/main.o: $(MAIN_SRC) $(INCLUDE_DIR)/cbs_iterator.h
+	$(CC) $(CFLAGS) $(RELEASE_FLAGS) -c -o $@ $(MAIN_SRC)
 
-$(BUILD_DIR)/%.o: $(TEST_DIR)/%.c
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -c -o $@ $<
+$(BUILD_DIR)/cbs_iterator.o: $(CBS_SRC) $(INCLUDE_DIR)/cbs_iterator.h
+	$(CC) $(CFLAGS) $(RELEASE_FLAGS) -c -o $@ $(CBS_SRC)
+
+# Компиляция объектных файлов для тестов
+$(BUILD_DIR)/test_cbs_iterator.o: $(TEST_SRC) $(INCLUDE_DIR)/cbs_iterator.h
+	$(CC) $(CFLAGS) $(DEBUG_FLAGS) -c -o $@ $(TEST_SRC)
 
 # Очистка
 clean:
@@ -59,10 +65,5 @@ run: $(TARGET)
 # Отладочная сборка
 debug: CFLAGS += $(DEBUG_FLAGS)
 debug: $(BUILD_DIR) $(TARGET)
-
-# Зависимости
-$(BUILD_DIR)/cbs_iterator.o: $(SRC_DIR)/cbs_iterator.c $(INCLUDE_DIR)/cbs_iterator.h
-$(BUILD_DIR)/main.o: $(SRC_DIR)/main.c $(INCLUDE_DIR)/cbs_iterator.h
-$(BUILD_DIR)/test_cbs_iterator.o: $(TEST_DIR)/test_cbs_iterator.c $(INCLUDE_DIR)/cbs_iterator.h
 
 .PHONY: all test clean run debug
