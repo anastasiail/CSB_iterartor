@@ -81,7 +81,7 @@ void test_n3() {
     iterator_destroy(&it);
 }
 
-void test_n4() {
+void test_n20() {
     printf("Для n=20\n");
     iterator_t it;
     iterator_init(&it, 20);
@@ -108,7 +108,7 @@ int main() {
     test_n1();
     test_n2();
     test_n3();
-    test_n4();
+    test_n20();
     
     printf("Введите n: ");
     
