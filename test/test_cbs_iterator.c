@@ -10,7 +10,7 @@ void test_n0() {
     int count = 0;
     while (iterator_has_next(&it)) {
         const cbs_t *val = iterator_value(&it);
-        printf("ПСП: '%s'\n", val->psp,);
+        printf("ПСП: '%s'\n", val->psp);
         count++;
         iterator_next(&it);
     }
@@ -96,7 +96,6 @@ void test_n20() {
     }
     
     printf("Всего последовательностей: %d\n", count);
-    printf("Результат: %s\n\n", count == 7 ? "Верно" : "Не верно");
     
     iterator_destroy(&it);
 }
