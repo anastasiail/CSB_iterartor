@@ -81,7 +81,7 @@ void test_n3() {
     iterator_destroy(&it);
 }
 
-void test_n20() {
+void test_n15() {
     printf("Для n=15\n");
     iterator_t it;
     iterator_init(&it, 15);
